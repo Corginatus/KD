@@ -1,6 +1,16 @@
-import time
-from datetime import datetime
-NUM_SECONDS_IN_A_MIN = 60
-start_time = datetime.now()
-time.sleep(61)
-print('Время выполнения: %d минута' % ((datetime.now() - start_time).total_seconds()/NUM_SECONDS_IN_A_MIN))
+import vk_api
+from config import token
+import re
+
+
+def getUserIdByUrl(url):
+
+    username = re.split('https://vk.com/', url)[1]
+    session = vk_api.VkApi(token=token)
+    x = session.method('users.get', {'user_ids': username})
+
+    return x[0]['id']
+
+
+result = getUserIdByUrl('https://vk.com/atamacer')
+print(result)
